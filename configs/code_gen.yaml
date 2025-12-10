@@ -1,0 +1,60 @@
+# Code Generation configuration
+# LLM writes reward shaping function at start
+
+exp_name: "code_gen_doorkey"
+
+# Environment
+env_name: "MiniGrid-DoorKey-8x8-v0"
+llm_mode: "none"
+n_envs: 8  # Can use parallel envs (LLM only called once at init)
+
+# LLM modes
+use_help_mode: false
+use_code_gen: true  # Enable code generation
+
+# Code generation settings
+code_gen_weight: 1.0  # Weight for shaped rewards (1.0 = full strength)
+
+# LLM configuration
+llm_config:
+  provider: "openai"
+  model: "gpt-4o-mini"  # Latest mini model - cheaper & faster!
+  temperature: 0.7
+  max_tokens: 500  # More tokens for code generation
+  cache_dir: "./llm_cache"
+
+# PPO hyperparameters
+ppo_config:
+  learning_rate: 0.0003
+  n_steps: 256
+  batch_size: 128
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.02
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Training
+total_timesteps: 300000
+checkpoint_freq: 25000
+eval_freq: 10000
+n_eval_episodes: 20
+
+# Output
+output_dir: "./output"
+verbose: true
+
+# Expected results:
+# - Learns faster than baseline (1.5-2x speedup)
+# - LLM writes reward shaping code once at start
+# - No ongoing LLM costs during training
+# - Success rate: 80-90% after 300k steps
+# - Cost: ~$0.01-0.02 total (single LLM call)
+
+# Notes:
+# - LLM is called only ONCE at initialization
+# - Generated code runs every step (fast, no API calls)
+# - If code generation fails, uses simple fallback
+# - Can inspect generated code in logs

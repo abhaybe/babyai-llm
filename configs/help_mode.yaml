@@ -1,0 +1,58 @@
+# Help-When-Stuck configuration
+# LLM provides single action when agent is stuck
+
+exp_name: "help_mode_doorkey"
+
+# Environment
+env_name: "MiniGrid-DoorKey-8x8-v0"
+llm_mode: "none" # Don't use old LLM mode
+n_envs: 1 # Single environment when using LLM (avoid parallel API calls)
+
+# LLM modes
+use_help_mode: true # Enable help-when-stuck
+use_code_gen: false
+
+# Help mode settings
+stuck_threshold: 50 # Ask for help after 50 steps without reward
+max_help_per_episode: 3 # Maximum 3 LLM calls per episode
+
+# LLM configuration
+llm_config:
+    provider: "openai"
+    model: "gpt-4o-mini" # Latest mini model - cheaper & faster!
+    temperature: 0.7
+    max_tokens: 200
+    cache_dir: "./llm_cache"
+
+# PPO hyperparameters
+ppo_config:
+    learning_rate: 0.0003
+    n_steps: 256
+    batch_size: 128
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    ent_coef: 0.02
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+
+# Training
+total_timesteps: 300000
+checkpoint_freq: 25000
+eval_freq: 10000
+n_eval_episodes: 20
+
+# Output
+output_dir: "./output"
+verbose: true
+# Expected results:
+# - Should learn faster than baseline (20-40% speedup)
+# - LLM helps escape stuck states
+# - Success rate: 75-85% after 300k steps
+# - Cost: ~$0.50-1.00 for full training (gpt-3.5-turbo)
+
+# Notes:
+# - LLM is called only when stuck (infrequent)
+# - Each call costs ~$0.0001-0.0002
+# - Typical run: 50-100 LLM calls total

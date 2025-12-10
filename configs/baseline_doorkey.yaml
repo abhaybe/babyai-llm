@@ -1,0 +1,41 @@
+# Baseline configuration for DoorKey - No LLM
+# Pure PPO learning without any LLM assistance
+
+exp_name: "baseline_doorkey"
+
+# Environment - DoorKey task
+env_name: "MiniGrid-DoorKey-8x8-v0"
+llm_mode: "none"
+n_envs: 8  # Parallel environments for faster training
+
+# LLM modes (all disabled for baseline)
+use_help_mode: false
+use_code_gen: false
+
+# PPO hyperparameters
+ppo_config:
+  learning_rate: 0.0003
+  n_steps: 256
+  batch_size: 128
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.02  # Higher exploration for DoorKey
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Training
+total_timesteps: 300000
+checkpoint_freq: 25000
+eval_freq: 10000
+n_eval_episodes: 20
+
+# Output
+output_dir: "./output"
+verbose: true
+
+# Expected baseline performance:
+# - DoorKey-8x8: ~60-70% success after 300k steps
+# - Mean episode length: 40-60 steps
+# - Learning is slow without reward shaping

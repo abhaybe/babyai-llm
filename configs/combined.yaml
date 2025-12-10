@@ -1,0 +1,70 @@
+# Combined configuration
+# Uses BOTH code generation AND help-when-stuck
+
+exp_name: "combined_doorkey"
+
+# Environment
+env_name: "MiniGrid-DoorKey-8x8-v0"
+llm_mode: "none"
+n_envs: 1  # Single environment (help mode needs it)
+
+# LLM modes - BOTH ENABLED
+use_help_mode: true
+use_code_gen: true
+
+# Help mode settings
+stuck_threshold: 50
+max_help_per_episode: 3
+
+# Code generation settings
+code_gen_weight: 1.0
+
+# LLM configuration
+llm_config:
+  provider: "openai"
+  model: "gpt-4o-mini"  # Latest mini model - cheaper & faster!
+  temperature: 0.7
+  max_tokens: 500
+  cache_dir: "./llm_cache"
+
+# PPO hyperparameters
+ppo_config:
+  learning_rate: 0.0003
+  n_steps: 256
+  batch_size: 128
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.02
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Training
+total_timesteps: 300000
+checkpoint_freq: 25000
+eval_freq: 10000
+n_eval_episodes: 20
+
+# Output
+output_dir: "./output"
+verbose: true
+
+# Expected results:
+# - BEST performance: combines benefits of both modes
+# - Code gen: provides reward shaping structure
+# - Help mode: rescues agent from stuck states
+# - Success rate: 85-95% after 300k steps
+# - Learning speed: 2-3x faster than baseline
+# - Cost: ~$0.50-1.00 (help mode calls + initial code gen)
+
+# How it works:
+# 1. At start: LLM generates reward shaping code
+# 2. During training: Agent gets shaped rewards from code
+# 3. When stuck: LLM provides single action hint
+# 4. Both work together for maximum benefit
+
+# Notes:
+# - This is the "kitchen sink" approach
+# - Good for comparison: how much does each mode contribute?
+# - Can measure: isolated vs combined effects
