@@ -1,0 +1,8 @@
+gymnasium
+minigrid
+stable-baselines3
+torch
+numpy
+openai
+pyyaml
+tensorboard

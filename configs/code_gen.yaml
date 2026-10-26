@@ -46,13 +46,6 @@ n_eval_episodes: 20
 output_dir: "./output"
 verbose: true
 
-# Expected results:
-# - Learns faster than baseline (1.5-2x speedup)
-# - LLM writes reward shaping code once at start
-# - No ongoing LLM costs during training
-# - Success rate: 80-90% after 300k steps
-# - Cost: ~$0.01-0.02 total (single LLM call)
-
 # Notes:
 # - LLM is called only ONCE at initialization
 # - Generated code runs every step (fast, no API calls)

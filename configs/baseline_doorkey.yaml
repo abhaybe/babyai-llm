@@ -34,8 +34,3 @@ n_eval_episodes: 20
 # Output
 output_dir: "./output"
 verbose: true
-
-# Expected baseline performance:
-# - DoorKey-8x8: ~60-70% success after 300k steps
-# - Mean episode length: 40-60 steps
-# - Learning is slow without reward shaping

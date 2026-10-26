@@ -50,14 +50,6 @@ n_eval_episodes: 20
 output_dir: "./output"
 verbose: true
 
-# Expected results:
-# - BEST performance: combines benefits of both modes
-# - Code gen: provides reward shaping structure
-# - Help mode: rescues agent from stuck states
-# - Success rate: 85-95% after 300k steps
-# - Learning speed: 2-3x faster than baseline
-# - Cost: ~$0.50-1.00 (help mode calls + initial code gen)
-
 # How it works:
 # 1. At start: LLM generates reward shaping code
 # 2. During training: Agent gets shaped rewards from code

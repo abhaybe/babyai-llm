@@ -46,11 +46,6 @@ n_eval_episodes: 20
 # Output
 output_dir: "./output"
 verbose: true
-# Expected results:
-# - Should learn faster than baseline (20-40% speedup)
-# - LLM helps escape stuck states
-# - Success rate: 75-85% after 300k steps
-# - Cost: ~$0.50-1.00 for full training (gpt-3.5-turbo)
 
 # Notes:
 # - LLM is called only when stuck (infrequent)
